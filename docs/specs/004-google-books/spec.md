@@ -1,6 +1,6 @@
 # 004 — Integração com a Google Books API
 
-**Status:** Em andamento · **Data:** 2026-10-29
+**Status:** Concluída, com um critério não verificado (ver abaixo) · **Data:** 2026-10-29
 
 ## Problema
 O motor só conhece os livros que já estão no `book_cache`, que hoje é preenchido pelo app. Não há como popular o catálogo pelo backend, e a classificação etária (spec 005) precisa do campo `maturityRating`, que o app não grava.
@@ -23,10 +23,10 @@ Um cliente da Google Books API que busca e normaliza livros para o formato do `b
 - **Fora:** sincronização periódica, imagens em alta resolução.
 
 ## Critérios de aceite
-- [ ] `normalize` cobre ISBN-13, ISBN-10, livro sem categoria, ano só com "AAAA" e capa `http` → `https` (`tests/test_google_books.py`).
-- [ ] 429 seguido de 200 resulta em sucesso após nova tentativa; três 429 seguidos geram `GoogleBooksError`.
-- [ ] A segunda busca igual não faz nova requisição (cache).
-- [ ] `gana ingest "torto arado" --dry-run` imprime os livros normalizados quando há cota ou chave.
+- [x] `normalize` cobre ISBN-13, ISBN-10, livro sem categoria, ano só com "AAAA" e capa `http` → `https` (`tests/test_google_books.py`).
+- [x] 429 seguido de 200 resulta em sucesso após nova tentativa; três 429 seguidos geram `GoogleBooksError`.
+- [x] A segunda busca igual não faz nova requisição (cache).
+- [ ] `gana ingest "torto arado" --dry-run` imprime os livros normalizados quando há cota ou chave. **Não verificado:** sem chave, a API respondeu 429 e o comando mostrou o erro esperado ("cota esgotada: configure GOOGLE_BOOKS_API_KEY").
 
 ## Clarify
 **P1.** Gravar a sinopse (`description`) no `book_cache`? *Recomendação:* sim no banco (o app já mostra), mas nunca em fixtures ou dados versionados no repositório público.

@@ -1,0 +1,51 @@
+{
+  "_comment": "Montado à mão no formato do recurso `volume` da Google Books API (v1), com metadados públicos e sem sinopses. Não é uma resposta gravada da API.",
+  "kind": "books#volumes",
+  "totalItems": 3,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "lL2GDwAAQBAJ",
+      "volumeInfo": {
+        "title": "Torto Arado",
+        "authors": ["Itamar Vieira Junior"],
+        "publisher": "Leya",
+        "publishedDate": "2019",
+        "industryIdentifiers": [
+          {"type": "ISBN_10", "identifier": "9896605855"},
+          {"type": "ISBN_13", "identifier": "9789896605858"}
+        ],
+        "pageCount": 237,
+        "printType": "BOOK",
+        "categories": ["Fiction / Literary"],
+        "maturityRating": "NOT_MATURE",
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=lL2GDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=lL2GDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+        },
+        "language": "pt-BR"
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "exemplo-mature",
+      "volumeInfo": {
+        "title": "Livro Adulto de Exemplo",
+        "authors": ["Autora Exemplo"],
+        "publishedDate": "2011-04-01",
+        "industryIdentifiers": [{"type": "ISBN_10", "identifier": "0000000000"}],
+        "categories": ["Fiction / Romance / Erotica"],
+        "maturityRating": "MATURE",
+        "language": "en"
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "exemplo-sem-categoria",
+      "volumeInfo": {
+        "title": "  Livro Sem Categoria  ",
+        "publishedDate": "sem data"
+      }
+    }
+  ]
+}
