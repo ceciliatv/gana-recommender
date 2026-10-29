@@ -29,24 +29,90 @@ def _book(gid, title, author, main, categories, pages, year, maturity="NOT_MATUR
 
 BOOKS: list[Book] = [
     _book("gcfGnQEACAAJ", "O Nome do Vento", ["Patrick Rothfuss"], "Fantasy", ["Fantasy", "Epic Fantasy"], 662, 2007),
-    _book("ydQiAQAAIAAJ", "Duna", ["Frank Herbert"], "Science Fiction", ["Science Fiction", "Classic Sci-Fi"], 412, 1965),
-    _book("vNxMMQEACAAJ", "Orgulho e Preconceito", ["Jane Austen"], "Romance", ["Romance", "Classic Literature"], 432, 1813),
+    _book(
+        "ydQiAQAAIAAJ", "Duna", ["Frank Herbert"], "Science Fiction", ["Science Fiction", "Classic Sci-Fi"], 412, 1965
+    ),
+    _book(
+        "vNxMMQEACAAJ",
+        "Orgulho e Preconceito",
+        ["Jane Austen"],
+        "Romance",
+        ["Romance", "Classic Literature"],
+        432,
+        1813,
+    ),
     _book("AoRbAAAAMAAJ", "O Código Da Vinci", ["Dan Brown"], "Thriller", ["Thriller", "Mystery"], 454, 2003),
-    _book("1EiJAwAAQBAJ", "Sapiens", ["Yuval Noah Harari"], "History", ["History", "Non-Fiction", "Anthropology"], 443, 2011),
+    _book(
+        "1EiJAwAAQBAJ",
+        "Sapiens",
+        ["Yuval Noah Harari"],
+        "History",
+        ["History", "Non-Fiction", "Anthropology"],
+        443,
+        2011,
+    ),
     _book("pD6arNyKyi8C", "O Hobbit", ["J.R.R. Tolkien"], "Fantasy", ["Fantasy", "Adventure"], 310, 1937),
-    _book("B4YGAQAAIAAJ", "Fundação", ["Isaac Asimov"], "Science Fiction", ["Science Fiction", "Classic Sci-Fi"], 244, 1951),
+    _book(
+        "B4YGAQAAIAAJ",
+        "Fundação",
+        ["Isaac Asimov"],
+        "Science Fiction",
+        ["Science Fiction", "Classic Sci-Fi"],
+        244,
+        1951,
+    ),
     _book("HMeNEAAAQBAJ", "A Garota no Trem", ["Paula Hawkins"], "Thriller", ["Thriller", "Mystery"], 336, 2015),
-    _book("yO9EAQAAMAAJ", "Sherlock Holmes", ["Arthur Conan Doyle"], "Mystery", ["Mystery", "Classic Literature"], 307, 1892),
-    _book("8U2oAAAAQBAJ", "Steve Jobs", ["Walter Isaacson"], "Biography", ["Biography", "Non-Fiction", "Technology"], 656, 2011),
-    _book("FmOcAQAAQBAJ", "A Guerra dos Tronos", ["George R.R. Martin"], "Fantasy", ["Fantasy", "Epic Fantasy"], 694, 1996),
+    _book(
+        "yO9EAQAAMAAJ",
+        "Sherlock Holmes",
+        ["Arthur Conan Doyle"],
+        "Mystery",
+        ["Mystery", "Classic Literature"],
+        307,
+        1892,
+    ),
+    _book(
+        "8U2oAAAAQBAJ",
+        "Steve Jobs",
+        ["Walter Isaacson"],
+        "Biography",
+        ["Biography", "Non-Fiction", "Technology"],
+        656,
+        2011,
+    ),
+    _book(
+        "FmOcAQAAQBAJ", "A Guerra dos Tronos", ["George R.R. Martin"], "Fantasy", ["Fantasy", "Epic Fantasy"], 694, 1996
+    ),
     _book("kotPYEqx7kMC", "1984", ["George Orwell"], "Science Fiction", ["Science Fiction", "Dystopia"], 328, 1949),
-    _book("ExkMAAAAYAAJ", "O Morro dos Ventos Uivantes", ["Emily Brontë"], "Romance", ["Romance", "Gothic Fiction"], 342, 1847),
+    _book(
+        "ExkMAAAAYAAJ",
+        "O Morro dos Ventos Uivantes",
+        ["Emily Brontë"],
+        "Romance",
+        ["Romance", "Gothic Fiction"],
+        342,
+        1847,
+    ),
     _book("3J_NAAAAQBAJ", "Inferno", ["Dan Brown"], "Thriller", ["Thriller", "Mystery"], 480, 2013),
-    _book("FmyBCwAAQBAJ", "Homo Deus", ["Yuval Noah Harari"], "History", ["History", "Non-Fiction", "Futurism"], 450, 2015),
+    _book(
+        "FmyBCwAAQBAJ", "Homo Deus", ["Yuval Noah Harari"], "History", ["History", "Non-Fiction", "Futurism"], 450, 2015
+    ),
     # sem interações de quem consentiu: entram só pelo conteúdo (cold start de item)
-    _book("lL2GDwAAQBAJ", "Torto Arado", ["Itamar Vieira Junior"], "Fiction", ["Fiction", "Brazilian Literature"], 237, 2019),
-    _book("mock-hailmary", "Projeto Hail Mary", ["Andy Weir"], "Science Fiction", ["Science Fiction", "Space"], 496, 2021),
-    _book("mock-50tons", "Cinquenta Tons de Cinza", ["E L James"], "Romance", ["Romance", "Erotica"], 480, 2011, "MATURE"),
+    _book(
+        "lL2GDwAAQBAJ",
+        "Torto Arado",
+        ["Itamar Vieira Junior"],
+        "Fiction",
+        ["Fiction", "Brazilian Literature"],
+        237,
+        2019,
+    ),
+    _book(
+        "mock-hailmary", "Projeto Hail Mary", ["Andy Weir"], "Science Fiction", ["Science Fiction", "Space"], 496, 2021
+    ),
+    _book(
+        "mock-50tons", "Cinquenta Tons de Cinza", ["E L James"], "Romance", ["Romance", "Erotica"], 480, 2011, "MATURE"
+    ),
 ]
 
 USERS: list[User] = [

@@ -12,9 +12,9 @@ O serviço nasceu como uma POC (primeiro commit do repositório) e evoluiu por *
 
 | Spec | Assunto | Status |
 |---|---|---|
-| [001](001-reestruturacao/spec.md) | Reestruturação da POC em pacote, com testes | Em andamento |
-| [002](002-hibrido-ponderado/spec.md) | Híbrido ponderado com peso adaptativo | Em andamento |
-| [003](003-cold-start/spec.md) | Cold start de usuário e de livro | Em andamento |
-| [004](004-google-books/spec.md) | Integração com a Google Books API | Em andamento |
-| [005](005-lgpd-e-classificacao-etaria/spec.md) | LGPD e classificação etária | Em andamento |
-| [006](006-avaliacao-e-ci/spec.md) | Avaliação offline e CI | Em andamento |
+| [001](001-reestruturacao/spec.md) | Reestruturação da POC em pacote, com testes | Concluída |
+| [002](002-hibrido-ponderado/spec.md) | Híbrido ponderado com peso adaptativo | Concluída |
+| [003](003-cold-start/spec.md) | Cold start de usuário e de livro | Concluída, 1 critério não atingido |
+| [004](004-google-books/spec.md) | Integração com a Google Books API | Concluída, 1 critério não verificado (sem chave) |
+| [005](005-lgpd-e-classificacao-etaria/spec.md) | LGPD e classificação etária | Concluída |
+| [006](006-avaliacao-e-ci/spec.md) | Avaliação offline e CI | Concluída (CI a confirmar no GitHub) |
