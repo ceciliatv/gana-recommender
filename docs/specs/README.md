@@ -17,4 +17,4 @@ O serviço nasceu como uma POC (primeiro commit do repositório) e evoluiu por *
 | [003](003-cold-start/spec.md) | Cold start de usuário e de livro | Concluída, 1 critério não atingido |
 | [004](004-google-books/spec.md) | Integração com a Google Books API | Concluída, 1 critério não verificado (sem chave) |
 | [005](005-lgpd-e-classificacao-etaria/spec.md) | LGPD e classificação etária | Concluída |
-| [006](006-avaliacao-e-ci/spec.md) | Avaliação offline e CI | Concluída (CI a confirmar no GitHub) |
+| [006](006-avaliacao-e-ci/spec.md) | Avaliação offline e CI | Concluída |

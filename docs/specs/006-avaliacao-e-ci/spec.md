@@ -1,6 +1,6 @@
 # 006 — Avaliação offline e CI
 
-**Status:** Concluída (falta só ver o CI rodar no GitHub) · **Data:** 2026-10-29
+**Status:** Concluída · **Data:** 2026-10-29
 
 ## Problema
 `evaluator.py` da POC mede leave-one-out nos 8 usuários do mock: os números variam muito a cada mudança e não dizem nada sobre o comportamento com dados reais. Não há avaliação de cold start, que é o caso mais comum numa rede social nova.
@@ -19,7 +19,7 @@ Uma avaliação reproduzível em dados públicos com o mesmo formato do Gana, e 
 ## Critérios de aceite
 - [x] `gana evaluate` baixa o Goodbooks (se faltar), roda os dois protocolos e escreve o relatório.
 - [x] Os números do README vêm do relatório gerado, não de estimativa.
-- [ ] O workflow passa no GitHub.
+- [x] O workflow passa no GitHub (Python 3.12 e 3.13, execução 40952853137).
 
 ## Clarify
 **P1.** Por que não avaliar com os dados reais do app? *Recomendação:* o banco tem poucas interações e são dados pessoais; para um repositório público, um dataset aberto com o mesmo formato é o certo.
