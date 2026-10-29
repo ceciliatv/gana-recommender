@@ -1,6 +1,6 @@
 # 005 — LGPD e classificação etária
 
-**Status:** Em andamento · **Data:** 2026-10-29
+**Status:** Concluída · **Data:** 2026-10-29
 
 > Esta spec descreve decisões técnicas inspiradas na LGPD (Lei 13.709/2018) e no ECA. Não é parecer jurídico.
 
@@ -42,12 +42,12 @@ O serviço trata só os dados de que precisa, só para quem consentiu, protege o
 - **Fora:** fluxo de consentimento no app (tela e texto), DPO e registro de operações.
 
 ## Critérios de aceite
-- [ ] Sem consentimento: estratégia `non_personalized` e as leituras da pessoa não alteram o colaborativo de outra (`tests/test_privacy.py`).
-- [ ] Menor de 18 e idade desconhecida nunca recebem livro `MATURE`.
-- [ ] Menor de 12 sem `parental_consent` recebe não personalizado.
-- [ ] `GET /users/{id}/data` devolve os dados da pessoa; `DELETE` remove e a próxima chamada retorna 404.
-- [ ] Com `SUPABASE_JWT_SECRET`, token ausente → 401; `sub` diferente → 403; token válido → 200.
-- [ ] `GET /users` não existe mais (404).
+- [x] Sem consentimento: estratégia `non_personalized` e as leituras da pessoa não alteram o colaborativo de outra (`tests/test_privacy.py`).
+- [x] Menor de 18 e idade desconhecida nunca recebem livro `MATURE`.
+- [x] Menor de 12 sem `parental_consent` recebe não personalizado.
+- [x] `GET /users/{id}/data` devolve os dados da pessoa; `DELETE` remove e a próxima chamada retorna 404.
+- [x] Com `SUPABASE_JWT_SECRET`, token ausente → 401; `sub` diferente → 403; token válido → 200.
+- [x] `GET /users` não existe mais (404).
 
 ## Clarify
 **P1.** Qual base legal para personalização? *Recomendação:* consentimento, com opção de recusa sem perder o app (recomendações genéricas).
