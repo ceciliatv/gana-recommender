@@ -1,8 +1,8 @@
 <div align="center">
 
-# Gana Recommender
+# Gana — Book Social Network (iOS)
 
-**Hybrid recommendation engine for Gana, a book social network for iOS.**
+**Hybrid recommendation engine** for Gana: the backend the app consumes.
 Python · FastAPI · Supabase · Google Books API · cold start · LGPD (Brazil's data protection law) · age rating
 
 [![CI](https://github.com/ceciliatv/gana-recommender/actions/workflows/ci.yml/badge.svg)](https://github.com/ceciliatv/gana-recommender/actions/workflows/ci.yml)

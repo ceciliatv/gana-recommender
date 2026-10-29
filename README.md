@@ -1,8 +1,8 @@
 <div align="center">
 
-# Gana Recommender
+# Gana — Rede Social de Livros (iOS)
 
-**Motor de recomendação híbrido do Gana, uma rede social de livros para iOS.**
+**Motor de recomendação híbrido** do Gana: o backend que o app consome.
 Python · FastAPI · Supabase · Google Books API · cold start · LGPD · classificação etária
 
 [![CI](https://github.com/ceciliatv/gana-recommender/actions/workflows/ci.yml/badge.svg)](https://github.com/ceciliatv/gana-recommender/actions/workflows/ci.yml)
