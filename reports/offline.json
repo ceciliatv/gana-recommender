@@ -1,0 +1,131 @@
+{
+  "users": 3000,
+  "books": 10000,
+  "interactions": 336949,
+  "loo": {
+    "users": 2999,
+    "results": {
+      "popularidade (contagem)": {
+        "hr@10": 0.0634,
+        "ndcg@10": 0.0358,
+        "recall@20": 0.089
+      },
+      "popularidade bayesiana": {
+        "hr@10": 0.0574,
+        "ndcg@10": 0.0344,
+        "recall@20": 0.087
+      },
+      "colaborativo": {
+        "hr@10": 0.0714,
+        "ndcg@10": 0.0457,
+        "recall@20": 0.102
+      },
+      "conteúdo": {
+        "hr@10": 0.0847,
+        "ndcg@10": 0.0527,
+        "recall@20": 0.1114
+      },
+      "híbrido α=0,3": {
+        "hr@10": 0.0924,
+        "ndcg@10": 0.0575,
+        "recall@20": 0.1217
+      },
+      "híbrido α=0,5": {
+        "hr@10": 0.0937,
+        "ndcg@10": 0.0576,
+        "recall@20": 0.123
+      },
+      "híbrido α=0,7": {
+        "hr@10": 0.0904,
+        "ndcg@10": 0.0567,
+        "recall@20": 0.1204
+      },
+      "híbrido adaptativo (Gana)": {
+        "hr@10": 0.0927,
+        "ndcg@10": 0.0592,
+        "recall@20": 0.1207
+      }
+    }
+  },
+  "cold_start": {
+    "test_users": 500,
+    "by_k": {
+      "0": {
+        "popularidade (contagem)": {
+          "hr@10": 0.778,
+          "ndcg@10": 0.2907,
+          "recall@20": 0.2454
+        },
+        "popularidade bayesiana": {
+          "hr@10": 0.728,
+          "ndcg@10": 0.2993,
+          "recall@20": 0.2418
+        },
+        "conteúdo só do histórico": {
+          "hr@10": 0.728,
+          "ndcg@10": 0.2993,
+          "recall@20": 0.2418
+        },
+        "em camadas (Gana)": {
+          "hr@10": 0.852,
+          "ndcg@10": 0.2905,
+          "recall@20": 0.2331
+        }
+      },
+      "1": {
+        "popularidade (contagem)": {
+          "hr@10": 0.778,
+          "ndcg@10": 0.289,
+          "recall@20": 0.2437
+        },
+        "popularidade bayesiana": {
+          "hr@10": 0.726,
+          "ndcg@10": 0.2999,
+          "recall@20": 0.24
+        },
+        "colaborativo": {
+          "hr@10": 0.834,
+          "ndcg@10": 0.2955,
+          "recall@20": 0.2238
+        },
+        "conteúdo só do histórico": {
+          "hr@10": 0.696,
+          "ndcg@10": 0.2292,
+          "recall@20": 0.1579
+        },
+        "em camadas (Gana)": {
+          "hr@10": 0.854,
+          "ndcg@10": 0.2963,
+          "recall@20": 0.2264
+        }
+      },
+      "3": {
+        "popularidade (contagem)": {
+          "hr@10": 0.778,
+          "ndcg@10": 0.2868,
+          "recall@20": 0.2403
+        },
+        "popularidade bayesiana": {
+          "hr@10": 0.724,
+          "ndcg@10": 0.2941,
+          "recall@20": 0.2375
+        },
+        "colaborativo": {
+          "hr@10": 0.85,
+          "ndcg@10": 0.3089,
+          "recall@20": 0.2401
+        },
+        "conteúdo só do histórico": {
+          "hr@10": 0.816,
+          "ndcg@10": 0.3037,
+          "recall@20": 0.2114
+        },
+        "em camadas (Gana)": {
+          "hr@10": 0.876,
+          "ndcg@10": 0.3363,
+          "recall@20": 0.2485
+        }
+      }
+    }
+  }
+}

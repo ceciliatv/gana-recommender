@@ -43,3 +43,7 @@ target-version = "py311"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM"]
 ignore = ["B008"]
+
+[tool.ruff.lint.isort]
+# a pasta supabase/ (migrações) confunde a detecção de pacote local
+known-third-party = ["supabase"]
