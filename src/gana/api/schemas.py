@@ -1,60 +1,57 @@
+"""Modelos da API.
+
+Os campos que o app iOS decodifica (`RecommendationResponseDTO`,
+`RecommendationItemDTO`, `BookDTO`) continuam com os mesmos nomes. Os campos
+novos (`strategy`, `alpha`, `reasons`) são adicionais: o `Decodable` do Swift
+ignora chaves que não conhece.
 """
-Modelos Pydantic espelhando o schema real do banco de dados do app Gana.
-"""
+
+from __future__ import annotations
+
+from typing import Literal
 
 from pydantic import BaseModel, Field
-from typing import List, Optional, Literal
 
-
-# ── Responses ──────────────────────────────────────────────────────────────
 
 class BookResponse(BaseModel):
     book_id: str
     google_books_id: str
     title: str
-    author: List[str]
+    author: list[str]
     main_category: str
-    categories: List[str]
+    categories: list[str]
     pages: int
     year_published: int
-    url_image: Optional[str] = None
-
-
-class UserResponse(BaseModel):
-    user_id: str
-    username: str
-    name: str
-    is_private: bool
+    url_image: str | None = None
 
 
 class RecommendationItem(BaseModel):
     book_id: str
     title: str
     main_category: str
-    categories: List[str]
-    author: List[str]
-    url_image: Optional[str] = None
+    categories: list[str]
+    author: list[str]
+    url_image: str | None = None
     score: float
+    reasons: list[str] = Field(default_factory=list)
 
 
 class RecommendationResponse(BaseModel):
     user_id: str
     algorithm: str
-    recommendations: List[RecommendationItem]
+    strategy: str = Field(description="non_personalized, popularity, cold_start_genres, hybrid, collaborative, content")
+    alpha: float | None = Field(default=None, description="Peso do colaborativo usado (só no híbrido)")
+    recommendations: list[RecommendationItem]
 
-
-# ── Requests ───────────────────────────────────────────────────────────────
 
 StatusEnum = Literal["Quero ler", "Lendo", "Lido", "Abandonado"]
+
 
 class InteractionRequest(BaseModel):
     user_id: str
     book_id: str
     status: StatusEnum
-    rate: Optional[float] = Field(
-        default=None, ge=1.0, le=5.0,
-        description="Avaliação de 1.0 a 5.0 (opcional — vem do Post_Review)"
-    )
+    rate: float | None = Field(default=None, ge=1.0, le=5.0, description="Nota da review, se houver")
 
 
 class InteractionResponse(BaseModel):
@@ -63,3 +60,15 @@ class InteractionResponse(BaseModel):
     book_id: str
     status: str
     effective_rating: float
+
+
+class UserDataResponse(BaseModel):
+    """Tudo o que o serviço guarda sobre a pessoa (LGPD, art. 18, II e V)."""
+
+    user_id: str
+    age_band: str
+    personalization_consent: bool
+    parental_consent: bool
+    favorite_genres: list[str]
+    interactions: list[dict]
+    used_for_recommendations: bool

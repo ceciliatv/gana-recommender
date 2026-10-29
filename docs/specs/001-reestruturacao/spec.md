@@ -1,6 +1,6 @@
 # 001 — Reestruturação da POC em pacote, com testes
 
-**Status:** Em andamento · **Data:** 2026-10-29
+**Status:** Concluída · **Data:** 2026-10-29
 
 ## Problema
 A POC funciona, mas foi escrita para provar a ideia:
@@ -26,10 +26,10 @@ Um pacote instalável (`gana`), com tipos explícitos, uma fonte única para reg
 - **Fora:** mudanças de algoritmo (specs 002 e 003).
 
 ## Critérios de aceite
-- [ ] `pip install -e .` e `gana serve` sobem a API.
-- [ ] Os campos que o app iOS decodifica (`RecommendationResponseDTO`, `RecommendationItemDTO`, `BookDTO`) continuam presentes, com os mesmos nomes (`tests/test_api_contract.py`).
-- [ ] `STATUS_RATING` definido em um só lugar (`grep -rn "Quero ler" src/` só encontra `domain.py` e dados de exemplo).
-- [ ] `pytest` passa.
+- [x] `pip install -e .` e `gana serve` sobem a API.
+- [x] Os campos que o app iOS decodifica (`RecommendationResponseDTO`, `RecommendationItemDTO`, `BookDTO`) continuam presentes, com os mesmos nomes (`tests/test_api_contract.py`).
+- [x] `STATUS_RATING` definido em um só lugar (`grep -rn "STATUS_RATING\s*[:=]" src/` só encontra `domain.py`).
+- [x] `pytest` passa.
 
 ## Clarify
 **P1.** Onde fica o backend: repositório novo ou pasta no repositório do app? *Recomendação:* repositório novo, a partir da POC, com o README apontando para o app do time.
@@ -40,3 +40,6 @@ Um pacote instalável (`gana`), com tipos explícitos, uma fonte única para reg
 
 ## Riscos
 - O app iOS envia UUID em maiúsculas; a POC normaliza para minúsculas. A normalização precisa continuar.
+
+## Registro de implementação
+- 2026-10-29: o critério do grep foi trocado. A versão original buscava a string "Quero ler", que também aparece legitimamente no tipo `StatusEnum` da API e nos pesos de status não julgados do colaborativo (spec 002). O que importa é o mapa de rating existir uma vez só.

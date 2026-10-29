@@ -1,32 +1,47 @@
+"""Cria o app FastAPI.
+
+Os dados são carregados uma vez na inicialização (Supabase ou mock) e ficam em
+`app.state`. `POST /refresh` recarrega sem reiniciar o serviço.
 """
-Cria e configura o app FastAPI.
-Os dados sao carregados uma vez na inicializacao (do Supabase ou do mock) e
-ficam em `app.state`, evitando recarregar a cada requisicao. Use POST /refresh
-para recarregar da fonte sem reiniciar o servico.
-"""
+
+from __future__ import annotations
+
+import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from data.source import build_source, load_into
-from .routes import router
+
+from gana import __version__
+from gana.api.routes import router
+from gana.config import Settings, get_settings
+from gana.data.source import DataSource, DataState, build_source
+from gana.recommender.engine import Recommender
+
+log = logging.getLogger("gana")
 
 
-def create_app() -> FastAPI:
+def create_app(settings: Settings | None = None, source: DataSource | None = None) -> FastAPI:
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        app.state.settings = settings or get_settings()
+        if source is None:
+            app.state.source, app.state.source_label = build_source(app.state.settings)
+        else:
+            app.state.source, app.state.source_label = source, type(source).__name__
+        app.state.data = DataState.load(app.state.source)
+        app.state.engine = Recommender(app.state.data)
+        log.info("fonte de dados: %s", app.state.source_label)
+        if not app.state.settings.auth_enabled:
+            log.warning("SUPABASE_JWT_SECRET ausente: rotas por usuário sem autenticação (só para desenvolvimento)")
+        yield
+
     app = FastAPI(
-        title="Gana - API de Recomendacao",
-        description="POC do algoritmo de recomendacao de livros para a rede social Gana.",
-        version="0.2.0",
+        title="Gana — API de recomendação",
+        description="Motor de recomendação híbrido da rede social de livros Gana.",
+        version=__version__,
+        lifespan=lifespan,
     )
-
-    # escolhe a fonte (Supabase se houver credenciais; senao, mock)
-    source, label = build_source()
-    app.state.source = source
-    print(f"[Gana API] Fonte de dados: {label}")
-
-    # carrega os dados uma vez na inicializacao
-    load_into(source, app.state)
-
     app.include_router(router)
-
     return app
 
 
