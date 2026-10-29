@@ -1,78 +1,70 @@
-"""
-Filtragem Baseada em Conteúdo (Content-Based Filtering).
+"""Filtragem baseada em conteúdo: TF-IDF sobre categoria principal, categorias e autores.
 
-Features usadas: main_category (peso 2x) + categories (one-hot) + author (one-hot).
-O peso maior em main_category reflete que ela é o sinal mais forte de preferência.
-Perfil do usuário = média ponderada pelos ratings dos vetores dos livros lidos.
+A categoria principal entra com peso 2 (sinal mais forte de preferência, como na
+POC). O perfil da pessoa é a soma dos vetores dos livros ponderada pelo rating
+centrado: livros abandonados afastam o perfil do que eles têm.
 """
+
+from __future__ import annotations
 
 import numpy as np
-from .base import BaseRecommender
-from typing import List
+from scipy import sparse
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.preprocessing import normalize
+
+from gana.domain import Book
 
 
-class ContentBasedRecommender(BaseRecommender):
+def _features(book: Book) -> dict[str, float]:
+    feats: dict[str, float] = {}
+    if book.main_category:
+        feats[f"cat:{book.main_category.lower()}"] = 2.0
+    for category in book.categories:
+        key = f"cat:{category.lower()}"
+        feats[key] = max(feats.get(key, 0.0), 1.0)
+    for author in book.author:
+        feats[f"author:{author.strip().lower()}"] = 1.0
+    return feats
 
-    def fit(self):
-        all_categories = sorted({cat for b in self.books for cat in b.get("categories", [])})
-        all_main = sorted({b["main_category"] for b in self.books})
-        all_authors = sorted({a for b in self.books for a in b.get("author", [])})
 
-        # índices: main_category primeiro (peso duplo), depois categories, depois authors
-        offset_main = 0
-        offset_cat  = len(all_main)
-        offset_auth = offset_cat + len(all_categories)
-        self.feature_size = offset_auth + len(all_authors)
+class ContentModel:
+    def __init__(self, books: list[Book]):
+        self.books = books
+        self.vectorizer = DictVectorizer()
+        counts = self.vectorizer.fit_transform([_features(b) for b in books])
+        self.tfidf = TfidfTransformer(sublinear_tf=False)
+        self.matrix = normalize(self.tfidf.fit_transform(counts)).tocsr()
+        self.vocabulary = self.vectorizer.vocabulary_
 
-        self.main_index   = {m: offset_main + i for i, m in enumerate(all_main)}
-        self.cat_index    = {c: offset_cat  + i for i, c in enumerate(all_categories)}
-        self.author_index = {a: offset_auth + i for i, a in enumerate(all_authors)}
+    def genre_vector(self, genres: list[str]) -> sparse.csr_matrix:
+        vec = sparse.lil_matrix((1, self.matrix.shape[1]), dtype=np.float64)
+        for genre in genres:
+            col = self.vocabulary.get(f"cat:{genre.lower()}")
+            if col is not None:
+                vec[0, col] = self.tfidf.idf_[col]
+        return vec.tocsr()
 
-        self.book_ids = [b["book_id"] for b in self.books]
+    def profile(
+        self, weights: dict[int, float], genres: list[str] | None = None, genre_weight: float = 1.0
+    ) -> sparse.csr_matrix:
+        """`weights`: índice do livro -> sinal de preferência. `genres`: do onboarding.
 
-        self.book_vectors = {}
-        for b in self.books:
-            vec = np.zeros(self.feature_size)
-            # main_category com peso 2 para ter mais influência que as demais categorias
-            if b["main_category"] in self.main_index:
-                vec[self.main_index[b["main_category"]]] = 2.0
-            for cat in b.get("categories", []):
-                if cat in self.cat_index:
-                    vec[self.cat_index[cat]] = 1.0
-            for author in b.get("author", []):
-                if author in self.author_index:
-                    vec[self.author_index[author]] = 1.0
-            self.book_vectors[b["book_id"]] = vec
+        Os gêneros entram como um vetor unitário com o peso de um livro curtido, para
+        não apagar o histórico de quem já leu alguma coisa.
+        """
+        vec = sparse.csr_matrix((1, self.matrix.shape[1]))
+        if weights:
+            rows = np.fromiter(weights.keys(), dtype=np.int64)
+            values = np.fromiter(weights.values(), dtype=np.float64)
+            selector = sparse.csr_matrix((values, (np.zeros(len(rows)), rows)), shape=(1, self.matrix.shape[0]))
+            vec = selector @ self.matrix
+        if genres:
+            vec = vec + genre_weight * normalize(self.genre_vector(genres))
+        return normalize(vec)
 
-        self.user_profiles = {}
-        for u in self.users:
-            uid = u["user_id"]
-            rated = [(bid, r) for (u2, bid, r) in self.interactions if u2 == uid]
-            if not rated:
-                self.user_profiles[uid] = np.zeros(self.feature_size)
-                continue
-            profile = np.zeros(self.feature_size)
-            total_weight = 0.0
-            for bid, rating in rated:
-                if bid in self.book_vectors:
-                    profile += rating * self.book_vectors[bid]
-                    total_weight += rating
-            self.user_profiles[uid] = profile / total_weight if total_weight else profile
+    def score(self, profile: sparse.csr_matrix) -> np.ndarray:
+        return np.asarray((self.matrix @ profile.T).todense()).ravel()
 
-    def recommend(self, user_id: str, n: int = 5) -> List[dict]:
-        if user_id not in self.user_profiles:
-            return []
-
-        profile = self.user_profiles[user_id]
-        already_read = self._already_read(user_id)
-
-        scores = []
-        for bid, vec in self.book_vectors.items():
-            if bid in already_read:
-                continue
-            norm = np.linalg.norm(profile) * np.linalg.norm(vec)
-            similarity = float(np.dot(profile, vec) / norm) if norm > 0 else 0.0
-            scores.append((bid, similarity))
-
-        scores.sort(key=lambda x: x[1], reverse=True)
-        return [self._format(bid, score) for bid, score in scores[:n]]
+    def similarity_to(self, index: int) -> np.ndarray:
+        return np.asarray((self.matrix @ self.matrix[index].T).todense()).ravel()
